@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.yulinu.dao.TbUserDao">
+
+    <resultMap type="cn.edu.yulinu.entity.TbUser" id="TbUserMap">
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="userMail" column="user_mail" jdbcType="VARCHAR"/>
+        <result property="userPassword" column="user_password" jdbcType="VARCHAR"/>
+        <result property="userType" column="user_type" jdbcType="VARCHAR"/>
+        <result property="userSex" column="user_sex" jdbcType="VARCHAR"/>
+        <result property="userAvatar" column="user_avatar" jdbcType="VARCHAR"/>
+        <result property="userStatus" column="user_status" jdbcType="VARCHAR"/>
+        <result property="userDel" column="user_del" jdbcType="VARCHAR"/>
+        <result property="userLoginDate" column="user_login_date" jdbcType="VARCHAR"/>
+        <result property="userCreateTime" column="user_create_time" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="saveUser">
+        insert into tb_user(user_name, user_mail, user_password,user_del, user_create_time)
+        VALUES (#{userName},#{userMail},#{userPassword},'0',now())
+    </insert>
+
+    <update id="updateUserById">
+        update tb_user
+        set user_name     = #{userName},
+            user_password = #{userPassword},
+            user_sex      = #{userSex},
+            user_avatar   = #{userAvatar},
+            user_status   = #{userStatus}
+        where user_id = #{userId}
+    </update>
+
+    <update id="uploadAvatar">
+        update tb_user
+        set user_avatar = #{userAvatar}
+        where user_id = #{userId}
+    </update>
+
+    <update id="updatePassword">
+        update tb_user
+        set user_password = #{userPassword}
+        where user_id = #{userId}
+    </update>
+
+    <update id="updateMail">
+        update tb_user
+        set user_mail = #{userMail}
+        where user_id = #{userId}
+    </update>
+
+    <update id="updateUserName">
+        update tb_user
+        set user_name = #{newName}
+        where user_id = #{tbUser.userId};
+    </update>
+
+    <update id="updateUserByAdmin">
+        update tb_user
+        set user_name = #{userName},
+            user_password = #{userPassword},
+            user_mail = #{userMail}
+        where user_id = #{userId};
+    </update>
+
+    <delete id="removeUser">
+        delete from tb_user where user_id = #{userId}
+    </delete>
+
+
+    <select id="checkUserName" resultType="java.lang.Integer">
+        select count(*)
+        from tb_user
+        where user_name = #{userName};
+    </select>
+
+</mapper>
+

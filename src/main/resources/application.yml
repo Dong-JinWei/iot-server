@@ -1,0 +1,45 @@
+server:
+  port: 7001
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql:///iot
+#    url: jdbc:mysql://******:3306/iot
+    username: 1234
+    password: 1234
+    type: com.alibaba.druid.pool.DruidDataSource
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  mail:
+    username: 1234@qq.com
+    #邮箱授权码，百度一下很简单
+    password: 1234
+    host: smtp.qq.com
+    default-encoding: utf-8
+    #开启加密验证
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: ture
+    port: 587
+
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  global-config:
+    db-config:
+      logic-delete-field: flag # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+      cn:
+        edu:
+          yulinu:
+            dao: debug  # 控制台打印sql语句

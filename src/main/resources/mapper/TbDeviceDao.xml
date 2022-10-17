@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.yulinu.dao.TbDeviceDao">
+
+    <resultMap type="cn.edu.yulinu.entity.TbDevice" id="TbDeviceMap">
+        <result property="deviceId" column="device_id" jdbcType="INTEGER"/>
+        <result property="deviceName" column="device_name" jdbcType="VARCHAR"/>
+        <result property="groupId" column="group_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <update id="updateDevice">
+        UPDATE tb_device
+        SET group_id = #{groupId}
+        WHERE device_id IN
+        <foreach collection="deviceIds" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+
+    <select id="getSideAll" resultMap="TbDeviceMap">
+        SELECT *
+        from tb_device td
+                 LEFT JOIN tb_group tg on td.group_id = tg.group_id
+    </select>
+
+</mapper>
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.yulinu.dao.UserApiKeyDao">
+
+    <resultMap type="cn.edu.yulinu.entity.UserApiKey" id="UserApiKeyMap">
+        <result property="apiId" column="api_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="apiKey" column="api_key" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <update id="updateApiKey">
+        UPDATE user_api_key
+        set api_key = #{newApiKey}
+        where user_id = #{userApiKey.userId}
+          and api_key = #{userApiKey.apiKey}
+    </update>
+
+    <delete id="removeApiKey">
+        delete
+        from user_api_key
+        where
+        user_id = #{userId} and
+        api_key in
+        <foreach collection="apiKeys" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
+</mapper>
+

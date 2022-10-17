@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.yulinu.dao.DevicesDao">
+
+    <resultMap type="cn.edu.yulinu.entity.Devices" id="DevicesMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="online" column="online" jdbcType="VARCHAR"/>
+        <result property="lastLogin" column="last_login" jdbcType="VARCHAR"/>
+        <result property="actTime" column="act_time" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into iot.devices(id, title, online, last_login, act_time, create_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.title}, #{entity.online}, #{entity.lastLogin}, #{entity.actTime}, #{entity.createTime})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into iot.devices(id, title, online, last_login, act_time, create_time)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.title}, #{entity.online}, #{entity.lastLogin}, #{entity.actTime}, #{entity.createTime})
+        </foreach>
+        on duplicate key update
+        id = values(id) , title = values(title) , online = values(online) , last_login = values(last_login) , act_time = values(act_time)
+        , create_time = values(create_time)
+    </insert>
+
+</mapper>
+
